@@ -1,4 +1,5 @@
 import Departments.*;
+import Register.AccountingDatabase;
 import Users.*;
 
 import java.util.Scanner;
@@ -11,17 +12,23 @@ public class Main {
         ExpeditionDepartment expeditionDepartment = new ExpeditionDepartment();
         ForklifterDepartment forklifterDepartment = new ForklifterDepartment();
         PackingDepartment packingDepartment = new PackingDepartment();
-        InvoiceDepartment invoiceDepartment = new InvoiceDepartment();
-
+        AccountingDatabase accountingDatabase = new AccountingDatabase();
         SecuritySystemDepartment securitySystemDepartment = new SecuritySystemDepartment();
-        Guard guard = new Guard(securitySystemDepartment);
-        Forklifter forklifter = new Forklifter(forklifterDepartment, generalStorage);
-        Manager manager = new Manager(securitySystemDepartment,
+
+        Packer packer = new Packer("Packer John",packingDepartment, generalStorage, accountingDatabase, forklifterDepartment);
+        Expeditor expeditor = new Expeditor("Expeditor Dean", accountingDatabase, generalStorage, expeditionDepartment);
+        Storekeeper storekeeper = new Storekeeper("Storekeeper Eleonore",generalStorage, forklifterDepartment, accountingDatabase);
+        Acceptor acceptor = new Acceptor("Acceptor Spike", receptionDepartment, generalStorage, forklifterDepartment);
+        Guard guard = new Guard("Guard Jet",securitySystemDepartment);
+        Forklifter forklifter = new Forklifter("Forklifter Antony",forklifterDepartment, generalStorage);
+
+        Manager manager = new Manager("Manager Timmy",securitySystemDepartment,
                 receptionDepartment,
                 expeditionDepartment,
                 forklifterDepartment,
                 generalStorage,
-                packingDepartment);
+                packingDepartment,
+                accountingDatabase);
 
         User user = null;
         Scanner in = new Scanner(System.in);
@@ -42,7 +49,15 @@ public class Main {
                     user = manager;
                     user.menu();
                     break;
-                case(4):
+                case (2):
+                    user = acceptor;
+                    user.menu();
+                    break;
+                case (3):
+                    user = expeditor;
+                    user.menu();
+                    break;
+                case (4):
                     user = forklifter;
                     user.menu();
                     break;
@@ -50,10 +65,17 @@ public class Main {
                     user = guard;
                     user.menu();
                     break;
+                case (6):
+                    user = packer;
+                    user.menu();
+                    break;
+                case (7):
+                    user = storekeeper;
+                    user.menu();
+                    break;
                 case (-1):
                     System.out.println("Exit");
                     break;
-
                 default:
                     System.out.println("Unknown command");
             }

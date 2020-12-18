@@ -3,6 +3,7 @@ package Users;
 import Components.Good;
 import Components.JobType;
 import Departments.*;
+import Register.AccountingDatabase;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -14,19 +15,23 @@ public class Manager extends User {
     ForklifterDepartment forklifterDepartment;
     GeneralStorage generalStorage;
     PackingDepartment packingDepartment;
+    AccountingDatabase accountingDatabase;
 
-    public Manager(SecuritySystemDepartment securitySystemDepartment,
+    public Manager(String name, SecuritySystemDepartment securitySystemDepartment,
                    ReceptionDepartment receptionDepartment,
                    ExpeditionDepartment expeditionDepartment,
                    ForklifterDepartment forklifterDepartment,
                    GeneralStorage generalStorage,
-                   PackingDepartment packingDepartment) {
+                   PackingDepartment packingDepartment,
+                   AccountingDatabase accountingDatabase) {
+        super(name);
         this.generalStorage = generalStorage;
         this.forklifterDepartment = forklifterDepartment;
         this.expeditionDepartment = expeditionDepartment;
         this.receptionDepartment = receptionDepartment;
         this.securitySystemDepartment = securitySystemDepartment;
         this.packingDepartment = packingDepartment;
+        this.accountingDatabase = accountingDatabase;
         this.setJobType(JobType.MANAGER);
     }
 
@@ -94,6 +99,24 @@ public class Manager extends User {
         return generalStorage.tasks.toString();
     }
 
+    String listGoods() {
+        return generalStorage.goods.toString();
+    }
+
+    String listInvoices() {
+        return accountingDatabase.getInvoices().toString();
+    }
+
+    String listEmployees() {
+        return "Manager: " + this.toString()
+                + "\n Acceptors: " + receptionDepartment.getAcceptors().toString()
+                + "\n Storekeepers: " + generalStorage.getStorekeepers().toString()
+                + "\n Packers: " + packingDepartment.getPackers().toString()
+                + "\n Forklifters: " + forklifterDepartment.getForklifters().toString()
+                + "\n Expeditors: " + expeditionDepartment.getExpeditors().toString()
+                + "\n Guards: " + securitySystemDepartment.getGuards().toString();
+    }
+
     public void menu() {
         int z = 0;
         while (z != -1) {
@@ -111,6 +134,9 @@ public class Manager extends User {
                     "(11) listExpeditionTasks\n" +
                     "(12) listGeneralStorageTasks\n" +
                     "(13) listPackingTasks\n" +
+                    "(14) listGoods\n" +
+                    "(15) listInvoices\n" +
+                    "(16) listEmployees\n" +
                     "(-1) exit\n");
 
             z = in.nextInt();
@@ -170,6 +196,14 @@ public class Manager extends User {
                 case (13):
                     System.out.println(listPackingTasks());
                     break;
+                case (14):
+                    System.out.println(listGoods());
+                    break;
+                case (15):
+                    System.out.println(listInvoices());
+                    break;
+                case (16):
+                    System.out.println(listEmployees());
                 case (-1):
                     System.out.println("Exit");
                     break;

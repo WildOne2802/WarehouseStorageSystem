@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpeditionDepartment {
-    Expeditor[] expeditors;
+    List<Expeditor> expeditors = new ArrayList<>();
     public List<String> tasks = new ArrayList<>();
 
-    Expeditor[] getExpeditors() {
-        return null;
+    public List<Expeditor> getExpeditors() {
+        return expeditors;
     }
 
-    void setExpeditors(Expeditor[] expeditors) {
-
+    public void addExpeditor(Expeditor expeditor) {
+        expeditors.add(expeditor);
     }
 }

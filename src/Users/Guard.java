@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class Guard extends User {
     SecuritySystemDepartment securitySystemDepartment;
 
-    public Guard(SecuritySystemDepartment securitySystemDepartment) {
+    public Guard(String name, SecuritySystemDepartment securitySystemDepartment) {
+        super(name);
         this.securitySystemDepartment = securitySystemDepartment;
         securitySystemDepartment.addGuard(this);
         this.setJobType(JobType.GUARD);

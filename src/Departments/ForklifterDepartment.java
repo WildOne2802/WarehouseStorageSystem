@@ -9,7 +9,7 @@ public class ForklifterDepartment {
     List<Forklifter> forklifters = new ArrayList<>();
     public List<String> tasks = new ArrayList<>();
 
-    List<Forklifter> getForklifters() {
+    public List<Forklifter> getForklifters() {
         return forklifters;
     }
 

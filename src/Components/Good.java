@@ -27,11 +27,35 @@ public class Good {
         this.placeID = placeID;
     }
 
+    public int getPlaceID() {
+        return placeID;
+    }
+
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
     }
 
     public void setPacked(boolean packed) {
         this.packed = packed;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "Good{" +
+                "goodID=" + goodID +
+                ", name='" + name + '\'' +
+                ", placeID=" + placeID +
+                ", amount=" + amount +
+                ", packed=" + packed +
+                ", accepted=" + accepted +
+                "}\n";
     }
 }

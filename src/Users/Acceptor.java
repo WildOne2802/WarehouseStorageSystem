@@ -16,9 +16,10 @@ public class Acceptor extends User {
     GeneralStorage generalStorage;
     ForklifterDepartment forklifterDepartment;
 
-    public Acceptor(ReceptionDepartment receptionDepartment,
+    public Acceptor(String name, ReceptionDepartment receptionDepartment,
                     GeneralStorage generalStorage,
                     ForklifterDepartment forklifterDepartment) {
+        super(name);
         this.generalStorage = generalStorage;
         this.receptionDepartment = receptionDepartment;
         this.forklifterDepartment = forklifterDepartment;
@@ -27,41 +28,54 @@ public class Acceptor extends User {
     }
 
     int findPlaceForGoods() {
-        return generalStorage.getFreePlaceID();
+        int id = generalStorage.getFreePlaceID();
+        generalStorage.placesID[id] = 1;
+        return id;
     }
 
     boolean registerGood(String name, int amount) {
-        if (findPlaceForGoods() != -1) {
+        int placeID = findPlaceForGoods();
+        if (placeID != -1) {
             Good good = new Good(name, amount);
             good.setAccepted(true);
+            good.setPlaceID(placeID);
             generalStorage.goods.add(good);
             callForklifter(good.getGoodID());
             return true;
         } else {
             return false;
         }
-
     }
 
     void callForklifter(int goodID) {
-        forklifterDepartment.tasks.add("Transfer this good from Reception department to General Storage " + goodID);
+        forklifterDepartment.tasks.add("Transfer this good from Reception department to General Storage (goodID: " + goodID + ")");
+    }
+
+    String getTasks() {
+        return generalStorage.tasks.toString();
     }
 
     Scanner in = new Scanner(System.in);
 
-    int z = 0;
     int amount;
     String name;
 
     @Override
     public void menu() {
+        int z = 0;
         while (z != -1) {
             System.out.println("Выберите команду: \n" +
-                    "(1) registerGood (Enter name and amount)\n" +
+                    "(1) getTasks\n" +
+                    "(2) registerGood (Enter name and amount)\n" +
                     "(-1) exit\n");
+
             z = in.nextInt();
+
             switch (z) {
                 case (1):
+                    System.out.println(getTasks());
+                    break;
+                case (2):
                     name = in.next();
                     amount = in.nextInt();
                     boolean result = registerGood(name, amount);
@@ -71,10 +85,10 @@ public class Acceptor extends User {
                         System.out.println("No more space");
                     }
                     break;
-                case(-1):
+                case (-1):
                     System.out.println("exit");
                     break;
-                default :
+                default:
                     System.out.println("Unknown command");
             }
         }

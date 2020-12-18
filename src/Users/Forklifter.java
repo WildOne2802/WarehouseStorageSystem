@@ -12,7 +12,8 @@ public class Forklifter extends User {
     ForklifterDepartment forklifterDepartment;
     GeneralStorage generalStorage;
 
-    public Forklifter(ForklifterDepartment forklifterDepartment, GeneralStorage generalStorage) {
+    public Forklifter(String name, ForklifterDepartment forklifterDepartment, GeneralStorage generalStorage) {
+        super(name);
         this.forklifterDepartment = forklifterDepartment;
         this.generalStorage = generalStorage;
         forklifterDepartment.addForklifter(this);
@@ -24,24 +25,23 @@ public class Forklifter extends User {
     }
 
     void changeGoodsPlace(int goodID, int newPlaceID) {
-        Good good = null;
         for (Good x : generalStorage.goods) {
             if (x.getGoodID() == goodID) {
-                good = x;
+                generalStorage.placesID[x.getPlaceID()] = 0;
+                x.setPlaceID(newPlaceID);
+                generalStorage.placesID[newPlaceID] = 1;
             }
         }
-        assert good != null;
-        good.setPlaceID(newPlaceID);
     }
 
     void dumpGood(int goodID) {
-        Good good = null;
         for (Good x : generalStorage.goods) {
             if (x.getGoodID() == goodID) {
-                good = x;
+                generalStorage.placesID[x.getPlaceID()] = 0;
+                generalStorage.goods.remove(x);
+                return;
             }
         }
-        generalStorage.goods.remove(good);
     }
 
     void transportGoods(int goodID) {
@@ -62,8 +62,8 @@ public class Forklifter extends User {
             System.out.println("Выберите команду: \n" +
                     "(1) getTasks\n" +
                     "(2) changeGoodsPlace (Enter good ID and new Place ID)\n" +
-                    "(3) dumpGood\n" +
-                    "(4) transportGoods\n" +
+                    "(3) dumpGood (Enter good ID)\n" +
+                    "(4) transportGood (Enter good ID)\n" +
                     "(-1) exit\n");
 
             z = in.nextInt();
